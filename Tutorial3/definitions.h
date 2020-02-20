@@ -1,14 +1,27 @@
 #pragma once
 #define CL_USE_DEPRECATED_OPENCL_1_2_APIS
-#include <CL2/cl.hpp>
+#include <CL/cl.hpp>
+#include <cassert>
 #include <fstream>
 
 #define EXPORT_VAR extern
 #define EXPORT_FUNC
 
+typedef float scalar;
+
+#define DT 0.100000f
+#define NSIZE 7
+#define DEVICE_INDEX 2
 
 extern "C" {
-
+	EXPORT_VAR scalar* aSpikes;
+	EXPORT_VAR scalar* xSpikes;
+	EXPORT_VAR scalar* ySpikes;
+	EXPORT_VAR scalar* zSpikes;
+	EXPORT_VAR scalar* aSynapses;
+	EXPORT_VAR scalar* xSpikes;
+	EXPORT_VAR scalar* ySpikes;
+	EXPORT_VAR scalar* zSpikes;
 	EXPORT_VAR unsigned int* glbSpkCntNeurons;
 	EXPORT_VAR unsigned int* glbSpkNeurons;
 	EXPORT_VAR scalar* VNeurons;
@@ -30,11 +43,16 @@ extern "C" {
 	EXPORT_FUNC void stepTime();
 	EXPORT_FUNC scalar* getCurrentVNeurons();
 	EXPORT_FUNC void pullCurrentVNeuronsFromDevice();
+	EXPORT_FUNC scalar* getCurrentxSynapses();
+	EXPORT_FUNC scalar* pullCurrentxSpikes();
+	EXPORT_FUNC scalar* pullCurrentSynapsesFromDevice();
+	EXPORT_FUNC scalar* pullCurrentSpikesFromDevice();
+
 
 }
 
 
-
+// Declaration of OpenCL functions
 namespace opencl {
 
 	void setUpContext(cl::Context& context, cl::Device& device, const int deviceIndex);
